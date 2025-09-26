@@ -17,7 +17,7 @@ app.get('/users', (req, res) => {
 
 //Register a new user
 app.post('/users', (req, res) => {
-    const newUserId = RegExp.body.userId;
+    const newUserId = req.body.userId;
     if(!newUserId) {    
         return res.status(400).send("Missing userId");
     }
