@@ -1,19 +1,32 @@
-# OS
+# OS files
 .DS_Store
 Thumbs.db
 
-# Log files
+# Logs
 *.log
 
-# Dependencies
+# Node.js
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# PHP / Composer
 vendor/
 
-# Build / cache
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Build / dist
 dist/
 build/
 .cache/
+coverage/
 
 # Docker
 *.pid
 *.sock
+.env
+.env.*
