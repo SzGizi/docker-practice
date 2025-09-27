@@ -30,3 +30,5 @@ coverage/
 *.sock
 .env
 .env.*
+
+build-context/some-large-file
