@@ -19,11 +19,7 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Build / dist
-dist/
-build/
-.cache/
-coverage/
+
 
 
 
