@@ -25,10 +25,7 @@ build/
 .cache/
 coverage/
 
-# Docker
-*.pid
-*.sock
-.env
-.env.*
+
+
 
 build-context/some-large-file
