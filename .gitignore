@@ -19,6 +19,7 @@ __pycache__/
 *.pyc
 *.pyo
 
+containerize-react-app/build
 
 
 
