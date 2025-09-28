@@ -1,0 +1,12 @@
+FROM node:22-alpine 
+#build phase
+WORKDIR /app
+COPY package*.json ./
+#COPY . .
+#RUN npm ci
+#RUN npm run build
+
+# run phase
+RUN npm ci --only=production
+COPY index.js index.js
+CMD [ "node","index.js" ]
