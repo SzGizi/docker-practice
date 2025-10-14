@@ -6,10 +6,6 @@ source .env.db
 ROOT_USERNAME="root-user"
 ROOT_PASSWORD="root-password"
 
-# key-valse credentials
-KEY_VALUE_DB="key-value-db"
-KEY_VALUE_USER="key-value-user"
-KEY_VALUE_PASSWORD="key-value-password"
 
 #connectivity
 source .env.network
@@ -26,7 +22,7 @@ VOLUME_CONTAINER_PATH="/data/db"
 source setup.sh
 
 if [ "$(docker ps -q -f name=$DB_CONTAINER_NAME)" ]; then
-    echo "Container $VOLUME_NAME already exists"
+    echo "Container $DB_CONTAINER_NAME already exists"
     echo "The container will be removd when stopped"
     echo "To stop the container, run: docker kill $DB_CONTAINER_NAME"
     exit 1
