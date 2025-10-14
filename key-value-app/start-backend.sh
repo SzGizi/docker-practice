@@ -29,12 +29,6 @@ docker run --rm -d --name $BCKEND_CONTAINER_NAME \
 -e MONGODB_HOST=$MONGODB_HOST \
 -e PORT=$CONTAINER_PORT \
 -p $LOCALHOST_PORT:$CONTAINER_PORT \
+-v ./backend/src:/app/src \
 --network $NETWORK_NAME \
 $BACKEND_IMAGE_NAME 
-
-
-# The MongoDB shell can be accessed with:
-#docker exec -it mongodb mongosh
-
-#docker run --rm --name debugsh -it --network key-value-net mongodb/mongodb-community-server:7.0-ubuntu2204 mongosh mongodb://key-value-user:key-value-password@mongodb/key-value-db
-#show collections 

@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const port = process.env.PORT;
-const app = exress();
+const app = exress(); 
 app.use(bodyParser.json());
 
 app.get('/health', (req, res) => {
-    res.status(200).send('up');
+    res.status(200).send('up!');
 });
 
 console.log('connect to MongoDB');
