@@ -1,6 +1,6 @@
 MONGODB_IMAGE="mongodb/mongodb-community-server"
 MONGODB_TAG="7.0-ubuntu2204"
-CONTAINER_NAME="mongodb"
+source .env.db
 
 # root credentials
 ROOT_USERNAME="root-user"
@@ -12,17 +12,26 @@ KEY_VALUE_USER="key-value-user"
 KEY_VALUE_PASSWORD="key-value-password"
 
 #connectivity
+source .env.network
 LOCALHOST_PORT=27017
 CONTAINER_PORT=27017
-NETWORK_NAME="key-value-net"
+
 #docker network create key-value-net
 
 #storage
-VOLUME_NAME="key-value-data"
+source .env.volume
 VOLUME_CONTAINER_PATH="/data/db"
 #docker volume create key-value-data
 
-docker run -d --rm --name $CONTAINER_NAME \
+source setup.sh
+
+if [ "$(docker ps -q -f name=$DB_CONTAINER_NAME)" ]; then
+    echo "Container $VOLUME_NAME already exists"
+    echo "The container will be removd when stopped"
+    echo "To stop the container, run: docker kill $DB_CONTAINER_NAME"
+    exit 1
+fi    
+docker run -d --rm --name $DB_CONTAINER_NAME \
 -e MONGO_INITDB_ROOT_USERNAME=$ROOT_USERNAME \
 -e MONGO_INITDB_ROOT_PASSWORD=$ROOT_PASSWORD \
 -e KEY_VALUE_DB=$KEY_VALUE_DB \
@@ -33,6 +42,7 @@ docker run -d --rm --name $CONTAINER_NAME \
 -v ./db-config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
 --network $NETWORK_NAME \
 $MONGODB_IMAGE:$MONGODB_TAG 
+
 
 # The MongoDB shell can be accessed with:
 #docker exec -it mongodb mongosh
