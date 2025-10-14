@@ -11,14 +11,31 @@ KEY_VALUE_DB="key-value-db"
 KEY_VALUE_USER="key-value-user"
 KEY_VALUE_PASSWORD="key-value-password"
 
+#connectivity
+LOCALHOST_PORT=27017
+CONTAINER_PORT=27017
+NETWORK_NAME="key-value-net"
+#docker network create key-value-net
+
+#storage
+VOLUME_NAME="key-value-data"
+VOLUME_CONTAINER_PATH="/data/db"
+#docker volume create key-value-data
+
 docker run -d --rm --name $CONTAINER_NAME \
 -e MONGO_INITDB_ROOT_USERNAME=$ROOT_USERNAME \
 -e MONGO_INITDB_ROOT_PASSWORD=$ROOT_PASSWORD \
 -e KEY_VALUE_DB=$KEY_VALUE_DB \
 -e KEY_VALUE_USER=$KEY_VALUE_USER \
 -e KEY_VALUE_PASSWORD=$KEY_VALUE_PASSWORD \
+-p $LOCALHOST_PORT:$CONTAINER_PORT \
+-v $VOLUME_NAME:$VOLUME_CONTAINER_PATH \
 -v ./db-config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
+--network $NETWORK_NAME \
 $MONGODB_IMAGE:$MONGODB_TAG 
 
 # The MongoDB shell can be accessed with:
 #docker exec -it mongodb mongosh
+
+#docker run --rm --name debugsh -it --network key-value-net mongodb/mongodb-community-server:7.0-ubuntu2204 mongosh mongodb://key-value-user:key-value-password@mongodb/key-value-db
+#show collections 
