@@ -1,14 +1,17 @@
-const exress = require('express');
+const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const {keyValueRouter} = require("./routes/store");
+const {healthRouter} = require("./routes/health");
 
-const port = process.env.PORT;
-const app = exress(); 
-app.use(bodyParser.json());
+const port = process.env.PORT;  
+const app = express();  
+app.use(bodyParser.json()); 
+app.use('/health',healthRouter);
+app.use('/store',keyValueRouter);
 
-app.get('/health', (req, res) => {
-    res.status(200).send('up!');
-});
+
+
 
 console.log('connect to MongoDB');
 mongoose.connect(`mongodb://${process.env.MONGODB_HOST}/${process.env.KEY_VALUE_DB}`, {
