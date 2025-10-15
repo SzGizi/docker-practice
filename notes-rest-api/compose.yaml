@@ -10,6 +10,11 @@ services:
         target: /etc/nginx/nginx.conf
     ports:
       - 5000:80
+    networks:
+      - notes-app-net
     depends_on:
       - notebooks
       - notes
+networks:
+  notes-app-net:
+  
