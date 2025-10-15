@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const axios = require('axios');
 const {Note} = require("./models");
 
+const nodebooksApiUrl = process.env.NOTEBOOKS_API_URL;
 const noteRouter = express.Router();
 
 // Create new notes: POST /
@@ -20,11 +22,41 @@ const validateId = (req,res,next) =>{
 
 noteRouter.post('/', async(req, res) => {
     try{
-        const {title, content} = req.body;
-        if(!title){
+        const {title, content, notebookId} = req.body;
+
+        let validateNotebookId = null;
+        if(!notebookId){
+            console.log({
+                message:
+                "Notebook ID not provided, Storing note without notebook."
+            })
+        } else if (!mongoose.Types.ObjectId.isValid(notebookId)){
+            return res.status(400).json({error:'Notebook not found', notebookId});
+        } else {
+            try{
+                await axios.get(`${nodebooksApiUrl}{/${notebookId}`);
+            }catch(err){
+                const jsonError = err.toJSON();
+                if(jsonError.status === 404){
+                   return res
+                   .status(404)
+                   .json({error: "Notebook not found", notebookId}); 
+                } else{
+                    console.log({
+                        message: 
+                        "Error verifying the notebook Id, Upstrem notebooks service not available. Storing note with provided Id for later validataion. ",
+                        notebookId,
+                        error: err.message,
+                    });
+                } 
+            }finally{
+                validateNotebookId = notebookId;
+            }
+        }
+        if(!title || !content){
             res.status(400).json({error:"'name' field is required"});
         }
-        const note = new Note({title,content});
+        const note = new Note({title,content, notebookId: validateNotebookId});
         await note.save();
         res.status(201).json({data, note});
 
