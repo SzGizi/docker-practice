@@ -4,6 +4,7 @@ const app = express();
 
 app.get('/',(req,res)=> res.json({message: 'hello from notebooks'}));
 
-app.listen(3000,()=>{
-    console.log("notebooks Server lisening 3000");
+const port = process.env.PORT;
+app.listen(port,()=>{
+    console.log(`notebooks Server lisening ${port}`);
 });
