@@ -11,8 +11,16 @@ services:
     environment:
       - MONGODB_HOST=db
       - PORT=3000
+    depends_on:
+      - db
     networks:
       - key-value-net
+    develop:
+      watch:
+        - path: ./backend/src
+          action: sync
+          target: /app/src
+
   db:
     image: mongodb/mongodb-community-server:7.0-ubuntu2204
     ports: 

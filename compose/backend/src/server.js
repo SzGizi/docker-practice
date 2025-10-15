@@ -7,6 +7,11 @@ const {healthRouter} = require("./routes/health");
 const port = process.env.PORT;  
 const app = express();  
 app.use(bodyParser.json()); 
+
+app.use('/',(req,res)=>{
+    return res.json({message:"Welcome  to Key-VAlue store"});
+});
+
 app.use('/health',healthRouter);
 app.use('/store',keyValueRouter);
 
