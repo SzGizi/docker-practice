@@ -1,5 +1,18 @@
 name: key-value-app
 services:
+  backend:
+    build: 
+      context: backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    env_file:
+      - .env.db-key-value
+    environment:
+      - MONGODB_HOST=db
+      - PORT=3000
+    networks:
+      - key-value-net
   db:
     image: mongodb/mongodb-community-server:7.0-ubuntu2204
     ports: 
